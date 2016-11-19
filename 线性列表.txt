@@ -1,0 +1,129 @@
+                                                     线性列表
+ 
+
+删除操作：利用finditem函数找到想要删除的数据在数组中的位置n(下标),然后从当前n的位置依次向后遍历，将后一个数据赋值给前一个数据，这样一            直到最后就能达到删除的效果。
+
+插入：    找到想要插入的位置，然后从后往前依次将数据往后挪（将前一个数据赋值给后一个数据），直至循环到当前想要插入的位置；
+
+代码：
+
+#include "iostream"
+using namespace std;
+class List
+{
+public:
+    virtual void insert()=0;
+    virtual void input()=0;
+    virtual void delet()=0;
+    virtual void print()=0;
+    virtual int finditem(double item)=0;
+
+};
+class AList:public List
+{
+public:
+    AList(int size)
+    {
+        maxsize=size;
+        listsize=0;
+        listArray=new double[maxsize];
+
+    }
+    virtual void insert();
+    virtual void input();
+    virtual void delet();
+   virtual void print();
+   virtual int finditem(double item);
+
+
+private:
+    int listsize;
+    int maxsize;
+    double* listArray;
+
+};
+void AList::insert()
+{
+        cout<<"请输入你想要插入的位置";
+        int curr;
+        cin>>curr;
+        cout<<"请输入你想要插入的数字";
+        int item;
+        cin>>item;
+        if(listsize>maxsize)
+            cout<<"数组已满"<<endl;
+        else
+        {
+            for(int i=listsize;i>curr;i--)
+            {
+                listArray[i]=listArray[i-1];
+
+
+            }
+            listArray[curr]=item;
+            listsize++;
+
+        }
+
+    }
+    void AList::input()
+    {
+        cout<<"请输入你想输入的个数:";
+        int n;
+        cin>>n;
+        for(int i=0;i<n;i++)
+        {
+            cout<<"请输入数据：";
+            cin>>listArray[i];
+            listsize++;
+
+        }
+    }
+
+    void AList::print()
+    {
+        for(int i=0;i<listsize;i++)
+        {
+            cout<<listArray[i]<<" \t ";
+        }
+        cout<<endl;
+    }
+    int AList::finditem(double item)
+    {
+        int n;
+         for(int i=0;i<listsize;i++)
+         {
+             if(item==listArray[i])
+                n=i;//返回的下标
+         }
+         return n;
+    }
+    void AList::delet()
+    {
+        cout<<"请输入你想要删除的数据:";
+        double item;
+        cin>>item;
+        int n=finditem(item);
+        for(int i=n;i<listsize-1;i++)
+        {
+             listArray[i]=listArray[i+1];//找到当前想要删除的数据的在数组中的位置n,然后从此位置开始依次将后面一个数赋值给前面的一个数，达到删除的目的
+        }
+        listsize--;
+
+    }
+
+int main()
+{
+   AList stu(56);
+   stu.input();
+   stu.print();
+   stu.insert();
+   stu.print();
+   stu.delet();
+   stu.print();
+
+    return 0;
+
+
+
+}
